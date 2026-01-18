@@ -1,183 +1,227 @@
-+<!doctype html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>IT Ticket</title>
+  <title>تسجيل دخول | Login</title>
   <style>
     body{font-family:system-ui,Segoe UI,Tahoma,Arial; background:#0b1220; color:#e9eef7; margin:0; padding:24px;}
-    .card{max-width:920px; margin:0 auto; background:#121a2b; border:1px solid #23304a; border-radius:16px; padding:18px 18px 24px;}
+    .card{max-width:480px; margin:0 auto; background:#121a2b; border:1px solid #23304a; border-radius:16px; padding:18px 18px 24px;}
     h1{margin:6px 0 2px; font-size:22px;}
     .sub{opacity:.85; margin:0 0 16px; font-size:13px;}
-    .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-    label{display:block; font-size:13px; margin:10px 0 6px; opacity:.95;}
-    select, input, textarea{width:100%; box-sizing:border-box; padding:10px 12px; border-radius:12px; border:1px solid #2a3a5a; background:#0f1729; color:#e9eef7; outline:none;}
-    textarea{min-height:110px; resize:vertical;}
-    .row{display:flex; gap:12px; flex-wrap:wrap;}
-    .pill{padding:8px 10px; border:1px solid #2a3a5a; border-radius:999px; font-size:12px; opacity:.95; cursor:pointer; user-select:none;}
-    .pill input{margin-left:6px;}
+    .label-dual{display:flex; justify-content:space-between; align-items:center; margin:10px 0 6px; opacity:.95; font-size:13px;}
+    .label-dual .ar{direction:rtl; text-align:right;}
+    .label-dual .en{direction:ltr; text-align:left; opacity:.8; font-size:12px;}
+    input{width:100%; box-sizing:border-box; padding:10px 12px; border-radius:12px; border:1px solid #2a3a5a; background:#0f1729; color:#e9eef7; outline:none;}
+    .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:10px;}
+    .pill{padding:8px 10px; border:1px solid #2a3a5a; border-radius:999px; font-size:12px; opacity:.95; cursor:pointer; user-select:none; display:flex; gap:8px; align-items:center;}
     .actions{display:flex; gap:10px; margin-top:16px;}
-    button{padding:10px 14px; border-radius:12px; border:1px solid #2a3a5a; background:#1f4e79; color:#fff; cursor:pointer; font-weight:700;}
-    button.secondary{background:transparent;}
-    .note{font-size:12px; opacity:.8; margin-top:10px;}
+    button{padding:10px 14px; border-radius:12px; border:1px solid #2a3a5a; background:#1f4e79; color:#fff; cursor:pointer; font-weight:700; width:100%;}
+    .msg{margin-top:10px; font-size:13px; padding:10px 12px; border-radius:12px; border:1px solid #2a3a5a; background:#0f1729;}
     .hidden{display:none;}
-    @media (max-width:760px){ .grid{grid-template-columns:1fr;} }
+    .note{font-size:12px; opacity:.8; margin-top:10px;}
+
+
+       .brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+/* ✅ توسيط اللوگو والعنوان (بالمنتصف) */
+.brand-center{
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  margin-bottom:14px;
+}
+
+.brand .logo{
+  width:120px;        /* للّوگو العريض */
+  height:44px;
+  border-radius:10px;
+  border:1px solid #23304a;
+  background:#0f1729;
+  object-fit:contain;
+  padding:6px;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+}
+
+/* ✅ لوكو بالمنتصف */
+.brand-center .logo{
+  margin:0 auto 6px;
+}
+
+/* ✅ على الموبايل */
+@media (max-width:760px){
+  .brand-center .logo{
+    width:168px;
+    height:58px;
+  }
+}
+.brand-center::after{
+  content:"";
+  width: 240px;
+  height:4px;
+  background:#23304a;
+  margin:10px auto 0;
+  border-radius:2px;
+}
+
+
+
+
+
+.brand .titles h1{margin:0; font-size:22px;}
+.brand .titles .sub{margin:4px 0 0; opacity:.85; font-size:13px;}
+
+
+
+
   </style>
 </head>
 <body>
+
   <div class="card">
-    <h1>الدعم فني</h1>
-    <p class="sub">IT Support Ticket </p>
-
-    <div class="grid">
-      <div>
-        <label>النظام | Select OS</label>
-        <select id="os" required>
-          <option value="" selected disabled>اختر…</option>
-          <option>Windows 11</option>
-          <option>Windows 10</option>
-          <option>Android</option>
-          <option>Ubuntu Linux</option>
-          <option>Windows Server</option>
-        </select>
-      </div>
-      <div>
-        <label>نوع المشكلة | Problem Type</label>
-        <select id="ptype" required>
-          <option value="" selected disabled>اختر…</option>
-          <option value="Software">Software (برمجية)</option>
-          <option value="Hardware">Hardware (عتادية)</option>
-        </select>
-      </div>
-    </div>
-	
-
-    <div id="issuesBlock">
-      <label> Issues (اختيار متعدد)</label>
-      <div id="issues" class="row"></div>
-    </div>
-
-    <div class="grid">
-      <div>
-        <label>الأولوية | Priority</label>
-        <select id="priority" required>
-          <option value="" selected disabled>اختر…</option>
-          <option>منخفض</option>
-          <option>متوسط</option>
-          <option>عالي</option>
-          <option>حرج</option>
-        </select>
-      </div>
-      <div>
-        <label>اسم المرسل | Name</label>
-        <input id="name" placeholder="الاسم الكامل" />
-      </div>
-    </div>
-
-    <div class="grid">
-     
-      <div>
-       <label>اختيار الوحدة | Select Unit</label>
-        <select id="tech">
-  <option value="">غير محدد</option>
-  <option value="IT Support Unit">IT Support Unit</option>
-  <option value="Network Operations Unit">Network Operations Unit</option>
-  <option value="Printing Services Unit">Printing Services Unit</option>
-
-</select>
-      </div>
-	  <div>
-  <label> SN | ID | كود العتبة </label>
-  <input id="contact" placeholder=" رقم الشاشة او كود العتبة او  سريال
-  " />
-</div>
-
-    </div>
-
-    <label>الوصف التفصيلي | Description</label>
-    <textarea id="desc" placeholder="اكتب التفاصيل…"></textarea>
-
-    <div class="actions">
-      <button id="submit">Submit</button>
-      
-    </div>
-
-    <div class="note">
-
+     <div class="brand brand-center">
+    <img class="logo" src="logo.png" alt="Logo">
+    <div class="titles">
+      <h1>الدعم الفني</h1>
+      <p class="sub">IT Support</p>
     </div>
   </div>
-<script>
-/* 🔗 ضع رابط Web App هنا */
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzZWbjoaZYVu2ALRTESvoT0ZyqnsIQ9NU1dHsUQPhp7sTthtKX71ihTYE9sYnRUcFmq/exec";
 
-/* ====== المشاكل حسب النظام ====== */
-const issuesByOS = {
-  "Windows 11": ["لا يقلع النظام (Boot)","تحديث فاشل","شاشة زرقاء (BSOD)","بطء شديد","مشكلة تعريفات","مشكلة تفعيل","لا توجد صورة (No Display)","ارتفاع حرارة","عطل قرص (SSD/HDD)","خلل RAM"],
-  "Windows 10": ["لا يقلع النظام (Boot)","تحديث فاشل","شاشة زرقاء (BSOD)","بطء شديد","مشكلة تعريفات","مشكلة تفعيل","لا توجد صورة (No Display)","ارتفاع حرارة","عطل قرص (SSD/HDD)","خلل RAM"],
-  "Android": ["تهنيج/بطء","انهيار تطبيق","Bootloop","استنزاف بطارية","مشكلة شحن","تعطل لمس","مشكلة شبكة/Wi-Fi","امتلاء مساحة"],
-  "Ubuntu Linux": ["خطأ GRUB","فشل تثبيت حزم","تعارض Dependencies","الشبكة لا تعمل","مشكلة تعريف كرت","خطأ Mount للقرص"],
-  "Windows Server": ["مشكلة Active Directory","DNS/DHCP لا يعمل","خدمة متوقفة","مشكلة تسجيل دخول/مصادقة","فشل نسخ احتياطي","مشكلة RAID","مشكلة شبكة"]
-};
+  
 
-/* ====== عرض المشاكل ====== */
-function renderIssues(){
-  const os = document.getElementById('os').value;
-  const wrap = document.getElementById('issues');
-  wrap.innerHTML = '';
-  (issuesByOS[os] || []).forEach((t)=>{
-    const div = document.createElement('label');
-    div.className = 'pill';
-    div.innerHTML = `<input type="checkbox" value="${t}"> ${t}`;
-    wrap.appendChild(div);
+    <form id="loginForm">
+      <label class="label-dual" for="username">
+        <span class="ar">اسم المستخدم</span>
+        <span class="en">Username</span>
+      </label>
+      <input id="username" required placeholder="مثال: admin" />
+
+      <label class="label-dual" for="password">
+        <span class="ar">كلمة المرور</span>
+        <span class="en">Password</span>
+      </label>
+      <input id="password" type="password" required placeholder="••••••••" />
+
+      <div class="row">
+        <label class="pill">
+          <input id="remember" type="checkbox" />
+          تذكرني (Remember me)
+        </label>
+
+        <label class="pill" style="margin-right:auto; cursor:default;">
+          <input id="showPass" type="checkbox" />
+          إظهار كلمة المرور
+        </label>
+      </div>
+
+      <div class="actions">
+  <button id="loginBtn" type="submit">دخول | Login</button>
+
+  <div id="loadingBox" class="msg hidden" style="width:100%; text-align:center; font-weight:700;">
+    جاري التحقق...
+  </div>
+</div>
+
+
+      <div id="msg" class="msg hidden"></div>
+    </form>
+  </div>
+
+ <script>
+  const LOGIN_WEBAPP = "https://script.google.com/macros/s/AKfycbwodvFex0gwh7VPISGiFwvufErySnOSI_A-I3JnSyvPJKzZBVAakpfYecAfvtxFzUBD/exec";
+  const form   = document.getElementById("loginForm");
+  const msg    = document.getElementById("msg");
+  const userEl = document.getElementById("username");
+  const passEl = document.getElementById("password");
+  const remember = document.getElementById("remember");
+  const showPass = document.getElementById("showPass");
+
+  const loginBtn = document.getElementById("loginBtn");
+  const loadingBox = document.getElementById("loadingBox");
+  
+
+  // إظهار/إخفاء كلمة المرور
+  showPass?.addEventListener("change", () => {
+    passEl.type = showPass.checked ? "text" : "password";
   });
-}
-document.getElementById('os').addEventListener('change', renderIssues);
 
-/* ====== جمع البيانات ====== */
-function collect(){
-  const issues = [...document.querySelectorAll('#issues input:checked')].map(x=>x.value);
-  return {
-    os: document.getElementById('os').value,
-    problemType: document.getElementById('ptype').value,
-    issues: issues,
-    priority: document.getElementById('priority').value,
-    name: document.getElementById('name').value,
-    contact: document.getElementById('contact').value,
-    technician: document.getElementById('tech').value,
-    description: document.getElementById('desc').value,
-    createdAt: new Date().toISOString()
-  };
-}
-
-/* ====== إرسال إلى Google Sheets ====== */
-async function sendToSheet(payload){
-  const res = await fetch(WEBAPP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(payload)
-  });
-  return await res.json();
-}
-
-/* ====== زر الإرسال ====== */
-document.getElementById('submit').addEventListener('click', async ()=>{
-  const data = collect();
-  if(!data.os || !data.problemType || !data.priority){
-    alert('رجاءً أكمل الحقول المطلوبة (OS / Type / Priority)');
-    return;
+  // تذكرني (اختياري)
+  const savedUser = localStorage.getItem("saved_user");
+  if (savedUser) {
+    userEl.value = savedUser;
+    remember.checked = true;
   }
 
-  try {
-    const result = await sendToSheet(data);
-    if(result.ok){
-      alert("تم إنشاء التذكرة بنجاح ✅\nرقم التذكرة: " + result.ticketId);
-    } else {
-      alert("فشل الإرسال ❌\n" + result.error);
+  function showMessage(text, ok=false){
+    if(!msg) return alert(text);
+    msg.textContent = text;
+    msg.classList.remove("hidden");
+    msg.style.borderColor = ok ? "#2f7a4b" : "#7a2f2f";
+  }
+
+  function setLoading(state){
+    if(state){
+      loginBtn.disabled = true;
+      loginBtn.classList.add("hidden");
+      loadingBox.classList.remove("hidden");
+      msg?.classList.add("hidden");
+    }else{
+      loginBtn.disabled = false;
+      loginBtn.classList.remove("hidden");
+      loadingBox.classList.add("hidden");
     }
-  } catch (e) {
-    alert("خطأ اتصال ❌\n" + e.message);
   }
-});
+
+  form.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+
+    const username = userEl.value.trim();
+    const password = passEl.value.trim();
+
+    if (!username || !password) {
+      showMessage("⚠️ أدخل اسم المستخدم وكلمة المرور");
+      return;
+    }
+
+    try{
+      setLoading(true);
+
+      const res = await fetch(LOGIN_WEBAPP, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      console.log("LOGIN RESPONSE:", data);
+
+      if (!data || data.ok !== true || !data.username) {
+        showMessage("❌ المعلومات غير صحيحة");
+        return;
+      }
+
+      // نجاح ✅
+      sessionStorage.setItem("logged_in", "1");
+      sessionStorage.setItem("logged_user", data.username);
+
+      if (remember.checked) localStorage.setItem("saved_user", username);
+      else localStorage.removeItem("saved_user");
+
+      showMessage("✅ تم تسجيل الدخول بنجاح", true);
+
+      setTimeout(()=> {
+        window.location.href = "ticket.html";
+      }, 300);
+
+    } catch(err){
+      showMessage("❌ خطأ اتصال: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  });
 </script>
-</body>
-</html>
